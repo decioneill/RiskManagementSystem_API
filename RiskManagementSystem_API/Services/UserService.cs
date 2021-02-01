@@ -94,12 +94,19 @@ namespace RiskManagementSystem_API.Services
         public User Create(User user, string password)
         {
             // validation
+
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
-            if (_context.Users.Any(x => x.Email == user.Email))
-                throw new AppException("Email \"" + user.Email + "\" is already in use");
-
+            if (_context.Users.Any() == false)
+            {
+                user.Admin = true;
+            }
+            else
+            {
+                if (_context.Users.Any(x => x.Email == user.Email))
+                    throw new AppException("Email \"" + user.Email + "\" is already in use");
+            }
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 

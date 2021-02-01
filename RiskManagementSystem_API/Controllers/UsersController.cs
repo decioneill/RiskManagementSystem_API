@@ -76,7 +76,7 @@ namespace RiskManagementSystem_API.Controllers
             var user = _mapper.Map<User>(model);
 
             try
-            {
+            {                
                 // create user
                 _userService.Create(user, model.Password);
                 return Ok();
