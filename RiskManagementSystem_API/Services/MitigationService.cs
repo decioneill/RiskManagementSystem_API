@@ -9,11 +9,11 @@ namespace RiskManagementSystem_API.Services
     public interface IMitigationService
     {
         IEnumerable<Mitigation> GetAll();
-        Mitigation GetById(int id);
-        IEnumerable<Mitigation> GetByRiskId(int riskId);
+        Mitigation GetById(Guid id);
+        IEnumerable<Mitigation> GetByRiskId(Guid riskId);
         Mitigation Create();
         void Update();
-        void Delete(int id);
+        void Delete(Guid id);
     }
 
     public class MitigationService : IMitigationService
@@ -30,7 +30,7 @@ namespace RiskManagementSystem_API.Services
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -40,12 +40,12 @@ namespace RiskManagementSystem_API.Services
             throw new NotImplementedException();
         }
 
-        public Mitigation GetById(int id)
+        public Mitigation GetById(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Mitigation> GetByRiskId(int riskId)
+        public IEnumerable<Mitigation> GetByRiskId(Guid riskId)
         {
             throw new NotImplementedException();
         }

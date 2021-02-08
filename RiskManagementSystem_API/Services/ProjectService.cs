@@ -9,12 +9,12 @@ namespace RiskManagementSystem_API.Services
     public interface IProjectService
     {        
         IEnumerable<Project> GetAll();
-        Project GetById(int id);
-        IEnumerable<Project> GetByUserId(int userId);
+        Project GetById(Guid id);
+        IEnumerable<Project> GetByUserId(Guid userId);
         Project GetByName(string name);
         Project Create();
         void Update();
-        void Delete(int id);
+        void Delete(Guid id);
     }
 
     public class ProjectService : IProjectService
@@ -31,7 +31,7 @@ namespace RiskManagementSystem_API.Services
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -42,7 +42,7 @@ namespace RiskManagementSystem_API.Services
             return projects;
         }
 
-        public Project GetById(int id)
+        public Project GetById(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -52,7 +52,7 @@ namespace RiskManagementSystem_API.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Project> GetByUserId(int userId)
+        public IEnumerable<Project> GetByUserId(Guid userId)
         {
             throw new NotImplementedException();
         }

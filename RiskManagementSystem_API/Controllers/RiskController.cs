@@ -7,6 +7,7 @@ using RiskManagementSystem_API.Services;
 using System.Collections;
 using RiskManagementSystem_API.Models.Risks;
 using System.Collections.Generic;
+using System;
 
 namespace RiskManagementSystem_API.Controllers
 {
@@ -31,9 +32,10 @@ namespace RiskManagementSystem_API.Controllers
 
         [AllowAnonymous]
         [HttpGet("test/{id}")]
-        public IActionResult Test(int id)
+        public IActionResult Test(string id)
         {
-            var riskProperties = _riskService.GetRiskPropertiesForRisk(id);
+            Guid riskId = Guid.Parse(id); 
+            var riskProperties = _riskService.GetRiskPropertiesForRisk(riskId);
             var model = _mapper.Map<IList<RiskPropertiesModel>>(riskProperties);
             return Ok(model);
         }

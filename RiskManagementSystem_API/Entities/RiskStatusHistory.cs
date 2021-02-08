@@ -7,10 +7,10 @@ namespace RiskManagementSystem_API.Entities
 {
     public class RiskStatusHistory
     {
-        public int Id { get; set; }
-        public int RiskId { get; set; }
+        public Guid Id { get; set; }
+        public Guid RiskId { get; set; }
         public int Status { get; set; }
-        public int StatusChangedBy { get; set; }
+        public Guid StatusChangedBy { get; set; }
         public DateTime StatusChangeDate { get; set; }
         public DateTime ReviewDate { get; set; }
     }

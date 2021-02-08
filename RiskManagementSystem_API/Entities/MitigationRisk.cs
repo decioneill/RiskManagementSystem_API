@@ -8,10 +8,10 @@ namespace RiskManagementSystem_API.Entities
     public class MitigationRisk
     {
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
-        public int MitigationId { get; set; }
+        public Guid MitigationId { get; set; }
 
-        public int RiskId { get; set; }
+        public Guid RiskId { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace RiskManagementSystem_API.Models.Mitigation
 {
     public class MitigationModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 

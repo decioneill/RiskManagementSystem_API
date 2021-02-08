@@ -10,7 +10,7 @@ using RiskManagementSystem_API.Helpers;
 namespace RiskManagementSystem_API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210208204714_InitialCreate")]
+    [Migration("20210208214303_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,10 +23,9 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.Mitigation", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CurrentStatus")
                         .HasColumnType("int");
@@ -47,16 +46,15 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.MitigationRisk", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("MitigationId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("MitigationId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("RiskId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RiskId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -65,10 +63,9 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.Project", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -80,10 +77,9 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.Risk", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -98,19 +94,18 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.RiskOwner", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<int>("RiskId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RiskId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -119,19 +114,18 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.RiskProperty", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("PropertyId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PropertyId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PropertyValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RiskId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RiskId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -140,16 +134,15 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.RiskStatusHistory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ReviewDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RiskId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RiskId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -157,8 +150,8 @@ namespace RiskManagementSystem_API.Migrations
                     b.Property<DateTime>("StatusChangeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StatusChangedBy")
-                        .HasColumnType("int");
+                    b.Property<Guid>("StatusChangedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -167,19 +160,18 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.TeamMember", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("TeamLeader")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -188,10 +180,9 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Admin")
                         .HasColumnType("bit");

@@ -7,7 +7,7 @@ namespace RiskManagementSystem_API.Models.Risks
 {
     public class RiskModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Description { get; set; }
 

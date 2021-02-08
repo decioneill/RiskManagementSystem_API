@@ -11,10 +11,9 @@ namespace RiskManagementSystem_API.Migrations
                 name: "MitigationRisks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MitigationId = table.Column<int>(type: "int", nullable: false),
-                    RiskId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MitigationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RiskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,8 +24,7 @@ namespace RiskManagementSystem_API.Migrations
                 name: "Mitigations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrentStatus = table.Column<int>(type: "int", nullable: false),
@@ -41,8 +39,7 @@ namespace RiskManagementSystem_API.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -54,10 +51,9 @@ namespace RiskManagementSystem_API.Migrations
                 name: "RiskOwners",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RiskId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RiskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -69,10 +65,9 @@ namespace RiskManagementSystem_API.Migrations
                 name: "RiskProperties",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RiskId = table.Column<int>(type: "int", nullable: false),
-                    PropertyId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RiskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PropertyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PropertyValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -84,8 +79,7 @@ namespace RiskManagementSystem_API.Migrations
                 name: "Risks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -98,11 +92,10 @@ namespace RiskManagementSystem_API.Migrations
                 name: "RiskStatusHistories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RiskId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RiskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    StatusChangedBy = table.Column<int>(type: "int", nullable: false),
+                    StatusChangedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StatusChangeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -115,10 +108,9 @@ namespace RiskManagementSystem_API.Migrations
                 name: "TeamMembers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProjectId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TeamLeader = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -130,8 +122,7 @@ namespace RiskManagementSystem_API.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RiskManager = table.Column<bool>(type: "bit", nullable: false),

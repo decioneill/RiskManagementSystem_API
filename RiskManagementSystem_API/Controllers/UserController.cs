@@ -62,6 +62,7 @@ namespace RiskManagementSystem_API.Controllers
             {
                 Id = user.Id,
                 RiskManager = user.RiskManager,
+                UserName = user.UserName,
                 Admin = user.Admin,
                 Email = user.Email,
                 Token = tokenString
@@ -97,26 +98,28 @@ namespace RiskManagementSystem_API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(string id)
         {
-            var user = _userService.GetById(id);
+            Guid userId = Guid.Parse(id);
+            var user = _userService.GetById(userId);
             var model = _mapper.Map<UserModel>(user);
             return Ok(model);
         }
 
         [HttpGet("{id}/{role}")]
-        public bool CheckRole(int id, Role role)
+        public bool CheckRole(string id, Role role)
         {
-            bool hasRole = _userService.CheckRole(id, role);
+            Guid userId = Guid.Parse(id);
+            bool hasRole = _userService.CheckRole(userId, role);
             return hasRole;
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody]UpdateModel model)
+        public IActionResult Update(string id, [FromBody]UpdateModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
-            user.Id = id;
+            user.Id = Guid.Parse(id);
 
             try
             {
@@ -132,10 +135,19 @@ namespace RiskManagementSystem_API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
-            _userService.Delete(id);
+            Guid userId = Guid.Parse(id);
+            _userService.Delete(userId);
             return Ok();
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            return Ok("Successful Endpoint");
         }
     }
 }

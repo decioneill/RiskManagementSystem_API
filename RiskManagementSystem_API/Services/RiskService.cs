@@ -8,13 +8,13 @@ namespace RiskManagementSystem_API.Services
 {
     public interface IRiskService
     {
-        IEnumerable<RiskProperty> GetRiskPropertiesForRisk(int Id);
+        IEnumerable<RiskProperty> GetRiskPropertiesForRisk(Guid riskId);
         IEnumerable<Risk> GetAll();
-        Risk GetById(int id);
-        IEnumerable<Risk> GetByUserId(int userId);
+        Risk GetById(Guid id);
+        IEnumerable<Risk> GetByUserId(Guid userId);
         Risk Create();
         void Update(Risk risk);
-        void Delete(int id);
+        void Delete(Guid id);
     }
 
     public class RiskService : IRiskService
@@ -31,7 +31,7 @@ namespace RiskManagementSystem_API.Services
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -41,17 +41,17 @@ namespace RiskManagementSystem_API.Services
             throw new NotImplementedException();
         }
 
-        public Risk GetById(int id)
+        public Risk GetById(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Risk> GetByUserId(int userId)
+        public IEnumerable<Risk> GetByUserId(Guid userId)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<RiskProperty> GetRiskPropertiesForRisk(int riskId)
+        public IEnumerable<RiskProperty> GetRiskPropertiesForRisk(Guid riskId)
         {
             IEnumerable<RiskProperty> properties = _context.RiskProperties.Where(x => x.RiskId.Equals(riskId));
             return properties;
