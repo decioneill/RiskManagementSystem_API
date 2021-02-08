@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RiskManagementSystem_API.Entities
+namespace RiskManagementSystem_API.Models.Users
 {
-    public class TeamMember
+    public class TeamMemberModel
     {
         public int Id { get; set; }
         public int ProjectId { get; set; }

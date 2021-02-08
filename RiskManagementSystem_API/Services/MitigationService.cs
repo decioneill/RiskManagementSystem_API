@@ -6,27 +6,26 @@ using RiskManagementSystem_API.Helpers;
 
 namespace RiskManagementSystem_API.Services
 {
-    public interface IProjectService
-    {        
-        IEnumerable<Project> GetAll();
-        Project GetById(int id);
-        IEnumerable<Project> GetByUserId(int userId);
-        Project GetByName(string name);
-        Project Create();
+    public interface IMitigationService
+    {
+        IEnumerable<Mitigation> GetAll();
+        Mitigation GetById(int id);
+        IEnumerable<Mitigation> GetByRiskId(int riskId);
+        Mitigation Create();
         void Update();
         void Delete(int id);
     }
 
-    public class ProjectService : IProjectService
+    public class MitigationService : IMitigationService
     {
         private DataContext _context;
 
-        public ProjectService(DataContext context)
+        public MitigationService(DataContext context)
         {
             _context = context;
         }
 
-        public Project Create()
+        public Mitigation Create()
         {
             throw new NotImplementedException();
         }
@@ -36,23 +35,17 @@ namespace RiskManagementSystem_API.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Project> GetAll()
-        {
-            var projects = _context.Projects;
-            return projects;
-        }
-
-        public Project GetById(int id)
+        public IEnumerable<Mitigation> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Project GetByName(string name)
+        public Mitigation GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Project> GetByUserId(int userId)
+        public IEnumerable<Mitigation> GetByRiskId(int riskId)
         {
             throw new NotImplementedException();
         }
@@ -62,5 +55,4 @@ namespace RiskManagementSystem_API.Services
             throw new NotImplementedException();
         }
     }
-    
 }

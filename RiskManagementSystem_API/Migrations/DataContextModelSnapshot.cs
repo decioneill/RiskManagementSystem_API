@@ -170,8 +170,8 @@ namespace RiskManagementSystem_API.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("ProjectName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TeamLeader")
                         .HasColumnType("bit");

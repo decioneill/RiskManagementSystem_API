@@ -78,6 +78,8 @@ namespace RiskManagementSystem_API
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IRiskService, RiskService>();
+            services.AddScoped<IMitigationService, MitigationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

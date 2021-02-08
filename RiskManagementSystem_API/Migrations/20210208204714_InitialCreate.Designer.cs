@@ -10,7 +10,7 @@ using RiskManagementSystem_API.Helpers;
 namespace RiskManagementSystem_API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210208153154_InitialCreate")]
+    [Migration("20210208204714_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -172,8 +172,8 @@ namespace RiskManagementSystem_API.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("ProjectName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TeamLeader")
                         .HasColumnType("bit");
