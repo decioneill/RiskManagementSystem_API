@@ -4,6 +4,10 @@ using RiskManagementSystem_API.Helpers;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using RiskManagementSystem_API.Services;
+using RiskManagementSystem_API.Models.Projects;
+using System.Collections.Generic;
+using System.Linq;
+using RiskManagementSystem_API.Entities;
 
 namespace RiskManagementSystem_API.Controllers
 {
@@ -24,6 +28,20 @@ namespace RiskManagementSystem_API.Controllers
             _projectService = projectService;
             _mapper = mapper;
             _appSettings = appSettings.Value;
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var projects = _projectService.GetAll().ToList();
+            var allList = new List<ProjectTeamModel>();
+            foreach(Project project in projects)
+            {
+                ProjectTeamModel model = new ProjectTeamModel(project);
+                model.Team = _projectService.GetTeamByProjectId(model.Id).ToArray();
+                allList.Add(model);
+            }
+            return Ok(allList.ToArray());
         }
 
         [AllowAnonymous]

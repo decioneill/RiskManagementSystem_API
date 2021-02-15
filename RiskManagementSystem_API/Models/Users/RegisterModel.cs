@@ -8,9 +8,6 @@ namespace RiskManagementSystem_API.Models.Users
         public string Email { get; set; }
 
         [Required]
-        public string UserName { get; set; }
-
-        [Required]
         public bool RiskManager { get; set; } = false;
 
         [Required]

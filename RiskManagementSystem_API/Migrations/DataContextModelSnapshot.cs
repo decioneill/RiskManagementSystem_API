@@ -197,9 +197,6 @@ namespace RiskManagementSystem_API.Migrations
                     b.Property<bool>("RiskManager")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Users");

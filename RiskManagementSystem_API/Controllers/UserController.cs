@@ -62,7 +62,6 @@ namespace RiskManagementSystem_API.Controllers
             {
                 Id = user.Id,
                 RiskManager = user.RiskManager,
-                UserName = user.UserName,
                 Admin = user.Admin,
                 Email = user.Email,
                 Token = tokenString

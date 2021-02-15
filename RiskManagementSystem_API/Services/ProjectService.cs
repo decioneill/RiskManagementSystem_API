@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using RiskManagementSystem_API.Entities;
 using RiskManagementSystem_API.Helpers;
+using RiskManagementSystem_API.Models.Projects;
+using RiskManagementSystem_API.Models.Users;
 
 namespace RiskManagementSystem_API.Services
 {
@@ -15,6 +17,7 @@ namespace RiskManagementSystem_API.Services
         Project Create();
         void Update();
         void Delete(Guid id);
+        IEnumerable<TeamMemberModel> GetTeamByProjectId(Guid projectId);
     }
 
     public class ProjectService : IProjectService
@@ -55,6 +58,22 @@ namespace RiskManagementSystem_API.Services
         public IEnumerable<Project> GetByUserId(Guid userId)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<TeamMemberModel> GetTeamByProjectId(Guid projectId)
+        {
+            var list = from m in _context.TeamMembers
+                       join u in _context.Users on m.UserId equals u.Id
+                       where m.ProjectId.Equals(projectId)
+                       select new TeamMemberModel
+                       {
+                           Id = m.Id,
+                           ProjectId = m.ProjectId,
+                           TeamLeader = m.TeamLeader,
+                           UserId = m.UserId,
+                           Name = u.Email
+                       };
+            return list;
         }
 
         public void Update()

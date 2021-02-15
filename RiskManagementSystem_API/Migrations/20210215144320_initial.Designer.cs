@@ -10,8 +10,8 @@ using RiskManagementSystem_API.Helpers;
 namespace RiskManagementSystem_API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210208214303_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210215144320_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -198,9 +198,6 @@ namespace RiskManagementSystem_API.Migrations
 
                     b.Property<bool>("RiskManager")
                         .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
