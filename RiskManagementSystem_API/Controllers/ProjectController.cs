@@ -41,6 +41,7 @@ namespace RiskManagementSystem_API.Controllers
                 model.Team = _projectService.GetTeamByProjectId(model.Id).ToArray();
                 allList.Add(model);
             }
+            allList = allList.OrderBy(x => x.Name).ToList();
             return Ok(allList.ToArray());
         }
 
@@ -50,15 +51,5 @@ namespace RiskManagementSystem_API.Controllers
         {
             return Ok("Successful Endpoint");
         }
-
-        /*
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var projects = _projectService.GetAll();
-            var model = _mapper.Map<IList<ProjectModel>>(projects);
-            return Ok(model);
-        }*/
     }
 }
