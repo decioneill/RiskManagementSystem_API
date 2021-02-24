@@ -9,5 +9,11 @@ namespace RiskManagementSystem_API.Models.Projects
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+
+        public ProjectModel(string name)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+        }
     }
 }

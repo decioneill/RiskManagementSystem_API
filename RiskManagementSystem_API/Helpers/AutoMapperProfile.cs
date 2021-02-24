@@ -17,7 +17,7 @@ namespace RiskManagementSystem_API.Helpers
             CreateMap<UpdateModel, User>();
 
             //Project
-            CreateMap<Project, ProjectModel>();
+            CreateMap<ProjectModel, Project>();
             CreateMap<TeamMember, TeamMemberModel>();
 
             //Risk
