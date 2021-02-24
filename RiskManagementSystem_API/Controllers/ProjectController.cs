@@ -50,6 +50,21 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        [HttpPost("{pid}/createTeamMembers")]
+        public IActionResult AddTeamMembers(string pid, List<string> users)
+        {
+            try
+            {
+                _projectService.AddTeamMembers(pid, users);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {

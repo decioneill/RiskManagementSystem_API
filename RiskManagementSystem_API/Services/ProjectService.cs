@@ -16,6 +16,7 @@ namespace RiskManagementSystem_API.Services
         IEnumerable<Project> GetByUserId(Guid userId);
         Project GetByName(string name);
         IEnumerable<DisplayUserModel> GetNonMembers(Guid pid);
+        void AddTeamMembers(string pid, List<string> userIds);
         void Create(Project newProject);
         void Update();
         void Delete(Guid id);
@@ -30,6 +31,27 @@ namespace RiskManagementSystem_API.Services
         public ProjectService(DataContext context)
         {
             _context = context;
+        }
+
+        public void AddTeamMembers(string pidString, List<string> userIds)
+        {
+            Guid pid = Guid.Parse(pidString);
+
+            if(_context.Projects.Any(x => x.Id.Equals(pid)))
+            {
+                foreach(string idString in userIds)
+                {
+                    Guid id = Guid.Parse(idString);
+                    TeamMember newMember = new TeamMember()
+                    {
+                        Id = Guid.NewGuid(),
+                        ProjectId = pid,
+                        TeamLeader = false,
+                        UserId = id
+                    };
+                    this.AddTeamMember(newMember);
+                }
+            }
         }
 
         public void AddTeamMember(TeamMember newMember)
