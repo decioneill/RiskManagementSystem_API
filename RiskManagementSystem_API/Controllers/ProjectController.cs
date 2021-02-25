@@ -36,8 +36,7 @@ namespace RiskManagementSystem_API.Controllers
         {
             Guid projId = Guid.Parse(pid);
             Guid userId = Guid.Parse(uid);
-            TeamMember newTeamMember = new TeamMember() { Id = Guid.NewGuid(), ProjectId = projId, UserId = userId, TeamLeader = false };
-
+            TeamMember newTeamMember = new TeamMember() { ProjectId = projId, UserId = userId, TeamLeader = false };
             try
             {
                 _projectService.AddTeamMember(newTeamMember);

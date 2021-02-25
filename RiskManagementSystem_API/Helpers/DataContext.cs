@@ -19,6 +19,15 @@ namespace RiskManagementSystem_API.Helpers
             options.UseSqlServer(Configuration.GetConnectionString("RiskManagement"));
         }
 
+        //Override in order to allow for composite keys
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MitigationRisk>().HasKey(mr => new { mr.MitigationId, mr.RiskId });
+            modelBuilder.Entity<RiskOwner>().HasKey(ro => new { ro.RiskId, ro.UserId });
+            modelBuilder.Entity<RiskProperty>().HasKey(rp => new { rp.RiskId, rp.PropertyId});
+            modelBuilder.Entity<TeamMember>().HasKey(tm => new { tm.ProjectId, tm.UserId });
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
         public DbSet<Project> Projects { get; set; }

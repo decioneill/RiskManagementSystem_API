@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RiskManagementSystem_API.Helpers;
 
 namespace RiskManagementSystem_API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210225221542_removedTeamMemberId")]
+    partial class removedTeamMemberId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,13 +46,17 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.MitigationRisk", b =>
                 {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("MitigationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RiskId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("MitigationId", "RiskId");
+                    b.HasKey("Id");
 
                     b.ToTable("MitigationRisks");
                 });
@@ -88,23 +94,28 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.RiskOwner", b =>
                 {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("RiskId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
-                    b.HasKey("RiskId", "UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("RiskOwners");
                 });
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.RiskProperty", b =>
                 {
-                    b.Property<Guid>("RiskId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PropertyId")
@@ -113,7 +124,10 @@ namespace RiskManagementSystem_API.Migrations
                     b.Property<string>("PropertyValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RiskId", "PropertyId");
+                    b.Property<Guid>("RiskId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
 
                     b.ToTable("RiskProperties");
                 });
@@ -146,16 +160,20 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.TeamMember", b =>
                 {
-                    b.Property<Guid>("ProjectId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("TeamLeader")
                         .HasColumnType("bit");
 
-                    b.HasKey("ProjectId", "UserId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
 
                     b.ToTable("TeamMembers");
                 });

@@ -42,14 +42,20 @@ namespace RiskManagementSystem_API.Services
                 foreach(string idString in userIds)
                 {
                     Guid id = Guid.Parse(idString);
-                    TeamMember newMember = new TeamMember()
+                    if (_context.TeamMembers.Any(x => x.UserId.Equals(id) && x.ProjectId.Equals(pid)))
+                    { 
+                        break;
+                    }
+                    else
                     {
-                        Id = Guid.NewGuid(),
-                        ProjectId = pid,
-                        TeamLeader = false,
-                        UserId = id
-                    };
-                    this.AddTeamMember(newMember);
+                        TeamMember newMember = new TeamMember()
+                        {
+                            ProjectId = pid,
+                            TeamLeader = false,
+                            UserId = id
+                        };
+                        this.AddTeamMember(newMember);
+                    }
                 }
             }
         }
@@ -123,7 +129,6 @@ namespace RiskManagementSystem_API.Services
                        where m.ProjectId.Equals(projectId)
                        select new TeamMemberModel
                        {
-                           Id = m.Id,
                            ProjectId = m.ProjectId,
                            TeamLeader = m.TeamLeader,
                            UserId = m.UserId,
