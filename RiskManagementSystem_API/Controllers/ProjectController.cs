@@ -50,6 +50,24 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        
+        [HttpGet("{pid}/{uid}/switchleaderrole")]
+        public IActionResult SwitchLeaderRole(string pid, string uid)
+        {
+            Guid projectId = Guid.Parse(pid);
+            Guid userId = Guid.Parse(uid);
+            try
+            {
+                _projectService.SwitchLeaderRole(projectId, userId);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [HttpPost("{pid}/createTeamMembers")]
         public IActionResult AddTeamMembers(string pid, List<string> users)
         {

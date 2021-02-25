@@ -18,9 +18,9 @@ namespace RiskManagementSystem_API.Services
         IEnumerable<DisplayUserModel> GetNonMembers(Guid pid);
         void AddTeamMembers(string pid, List<string> userIds);
         void Create(Project newProject);
-        void Update();
         void Delete(Guid id);
         void DeleteTeamMember(Guid pid, Guid uid);
+        void SwitchLeaderRole(Guid pid, Guid uid);
         IEnumerable<TeamMemberModel> GetTeamByProjectId(Guid projectId);
     }
 
@@ -129,7 +129,7 @@ namespace RiskManagementSystem_API.Services
                            UserId = m.UserId,
                            Name = u.Email
                        };
-            return list;
+            return list.OrderByDescending(x => x.TeamLeader).ThenBy(x => x.Name);
         }
 
         public void DeleteTeamMember(Guid pid, Guid uid)
@@ -142,9 +142,15 @@ namespace RiskManagementSystem_API.Services
             }
         }
 
-        public void Update()
+        public void SwitchLeaderRole(Guid pid, Guid uid)
         {
-            throw new NotImplementedException();
+            var teamMember = _context.TeamMembers.Where(x => x.UserId.Equals(uid) && x.ProjectId.Equals(pid)).FirstOrDefault();
+            if (teamMember != null)
+            {
+                teamMember.TeamLeader = !teamMember.TeamLeader;
+                _context.TeamMembers.Update(teamMember);
+                _context.SaveChanges();
+            }
         }
     }
     
