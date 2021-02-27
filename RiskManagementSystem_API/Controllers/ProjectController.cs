@@ -147,7 +147,7 @@ namespace RiskManagementSystem_API.Controllers
         }
 
         [HttpDelete("{pid}/{uid}")]
-        public IActionResult Delete(string pid, string uid)
+        public IActionResult DeleteTeamMember(string pid, string uid)
         {
             Guid projectId = Guid.Parse(pid);
             Guid userId = Guid.Parse(uid);
@@ -156,6 +156,21 @@ namespace RiskManagementSystem_API.Controllers
                 _projectService.DeleteTeamMember(projectId, userId);
                 return Ok();
             } catch (AppException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("{uid}/userprojects")]
+        public IActionResult GetUsersProjects(string uid)
+        {
+            Guid userId = Guid.Parse(uid);
+            try
+            {
+                IEnumerable<Project> list = _projectService.GetUserProjects(userId);
+                return Ok(list);
+            }
+            catch (AppException ex)
             {
                 return BadRequest(new { message = ex.Message });
             }

@@ -22,6 +22,7 @@ namespace RiskManagementSystem_API.Services
         void DeleteTeamMember(Guid pid, Guid uid);
         void SwitchLeaderRole(Guid pid, Guid uid);
         IEnumerable<TeamMemberModel> GetTeamByProjectId(Guid projectId);
+        IEnumerable<Project> GetUserProjects(Guid userId);
     }
 
     public class ProjectService : IProjectService
@@ -156,6 +157,28 @@ namespace RiskManagementSystem_API.Services
                 _context.TeamMembers.Update(teamMember);
                 _context.SaveChanges();
             }
+        }
+
+        public IEnumerable<Project> GetUserProjects(Guid userId)
+        {
+            User user = _context.Users.Where(x => x.Id.Equals(userId)).FirstOrDefault();
+            List<Guid> projectIds = new List<Guid>();
+            if (user.Admin)
+            {
+                projectIds = _context.Projects.Select(tm => tm.Id).ToList<Guid>();
+            }
+            else
+            {
+                projectIds = _context.TeamMembers.Where(user => user.UserId.Equals(userId)).Select(tm => tm.ProjectId).ToList<Guid>();
+            }
+            var list = from p in _context.Projects
+                       where projectIds.Contains(p.Id)
+                       select new Project
+                       {
+                           Id = p.Id,
+                           Name = p.Name
+                       };
+            return list.OrderBy(x => x.Name);
         }
     }
     
