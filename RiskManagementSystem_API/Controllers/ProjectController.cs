@@ -31,6 +31,25 @@ namespace RiskManagementSystem_API.Controllers
             _appSettings = appSettings.Value;
         }
 
+        [HttpGet("{pid}")]
+        public IActionResult GetById(string pid)
+        {
+            if (!string.IsNullOrEmpty(pid))
+            {
+                Guid projId = Guid.Parse(pid);
+                try
+                {
+                    Project project = _projectService.GetById(projId);
+                    return Ok(project);
+                }
+                catch (AppException ex)
+                {
+                    return BadRequest(new { message = ex.Message });
+                }
+            }
+            return null;
+        }
+
         [HttpPost("{pid}/{uid}")]
         public IActionResult AddTeamMember(string pid, string uid)
         {

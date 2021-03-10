@@ -95,9 +95,10 @@ namespace RiskManagementSystem_API.Services
             return projects;
         }
 
-        public Project GetById(Guid id)
+        public Project GetById(Guid pid)
         {
-            throw new NotImplementedException();
+            Project proj = _context.Projects.Where(x => x.Id.Equals(pid)).FirstOrDefault();
+            return proj;
         }
 
         public Project GetByName(string name)
