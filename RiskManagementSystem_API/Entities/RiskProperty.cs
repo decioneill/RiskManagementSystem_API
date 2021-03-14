@@ -10,7 +10,7 @@ namespace RiskManagementSystem_API.Entities
     public class RiskProperty
     {
         public Guid RiskId { get; set; }
-        public Guid PropertyId { get; set; }
+        public int PropertyId { get; set; }
         public string PropertyValue { get; set; }
     }
 }

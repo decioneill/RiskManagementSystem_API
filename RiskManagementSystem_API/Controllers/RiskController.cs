@@ -8,6 +8,7 @@ using System.Collections;
 using RiskManagementSystem_API.Models.Risks;
 using System.Collections.Generic;
 using System;
+using RiskManagementSystem_API.Entities;
 
 namespace RiskManagementSystem_API.Controllers
 {
@@ -30,14 +31,31 @@ namespace RiskManagementSystem_API.Controllers
             _appSettings = appSettings.Value;
         }
 
-        [AllowAnonymous]
-        [HttpGet("test/{id}")]
-        public IActionResult Test(string id)
+        [HttpGet("{pid}/{uid}/short")]
+        public IActionResult GetSimpleRisksByUserId(string pid, string uid)
         {
-            Guid riskId = Guid.Parse(id); 
-            var riskProperties = _riskService.GetRiskPropertiesForRisk(riskId);
-            var model = _mapper.Map<IList<RiskPropertiesModel>>(riskProperties);
-            return Ok(model);
+            if (!string.IsNullOrEmpty(pid) && !string.IsNullOrEmpty(uid))
+            {
+                Guid projectId = Guid.Parse(pid);
+                Guid userId = Guid.Parse(uid);
+                IEnumerable<SimpleRisk> list = _riskService.GetSimpleRisks(projectId, userId);
+                return Ok(list);
+            }
+            return null;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            Risk newRisk = new Risk()
+            {
+                Id = Guid.NewGuid(),
+                Description = "Test Risk",
+                ShortDescription = "Test Short Risk"
+            };
+            _riskService.Create(newRisk);
+            return Ok();
         }
     }
 }

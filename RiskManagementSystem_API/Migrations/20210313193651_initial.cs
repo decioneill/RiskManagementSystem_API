@@ -11,13 +11,12 @@ namespace RiskManagementSystem_API.Migrations
                 name: "MitigationRisks",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MitigationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RiskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MitigationRisks", x => x.Id);
+                    table.PrimaryKey("PK_MitigationRisks", x => new { x.MitigationId, x.RiskId });
                 });
 
             migrationBuilder.CreateTable(
@@ -51,28 +50,26 @@ namespace RiskManagementSystem_API.Migrations
                 name: "RiskOwners",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RiskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RiskOwners", x => x.Id);
+                    table.PrimaryKey("PK_RiskOwners", x => new { x.RiskId, x.UserId });
                 });
 
             migrationBuilder.CreateTable(
                 name: "RiskProperties",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RiskId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PropertyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PropertyId = table.Column<int>(type: "int", nullable: false),
                     PropertyValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RiskProperties", x => x.Id);
+                    table.PrimaryKey("PK_RiskProperties", x => new { x.RiskId, x.PropertyId });
                 });
 
             migrationBuilder.CreateTable(
@@ -80,6 +77,7 @@ namespace RiskManagementSystem_API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -108,14 +106,13 @@ namespace RiskManagementSystem_API.Migrations
                 name: "TeamMembers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TeamLeader = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeamMembers", x => x.Id);
+                    table.PrimaryKey("PK_TeamMembers", x => new { x.ProjectId, x.UserId });
                 });
 
             migrationBuilder.CreateTable(

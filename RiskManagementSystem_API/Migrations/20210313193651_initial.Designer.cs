@@ -10,8 +10,8 @@ using RiskManagementSystem_API.Helpers;
 namespace RiskManagementSystem_API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210225221542_removedTeamMemberId")]
-    partial class removedTeamMemberId
+    [Migration("20210313193651_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,17 +46,13 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.MitigationRisk", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("MitigationId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RiskId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("MitigationId", "RiskId");
 
                     b.ToTable("MitigationRisks");
                 });
@@ -84,6 +80,9 @@ namespace RiskManagementSystem_API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ShortDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -94,40 +93,32 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.RiskOwner", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("RiskId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
+
+                    b.HasKey("RiskId", "UserId");
 
                     b.ToTable("RiskOwners");
                 });
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.RiskProperty", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("RiskId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PropertyId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PropertyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PropertyValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("RiskId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("RiskId", "PropertyId");
 
                     b.ToTable("RiskProperties");
                 });
@@ -160,20 +151,16 @@ namespace RiskManagementSystem_API.Migrations
 
             modelBuilder.Entity("RiskManagementSystem_API.Entities.TeamMember", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProjectId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("TeamLeader")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("ProjectId", "UserId");
 
                     b.ToTable("TeamMembers");
                 });

@@ -12,4 +12,14 @@ namespace RiskManagementSystem_API.Models.Risks
         public Guid PropertyId { get; set; }
         public string PropertyValue { get; set; }
     }
+
+    public enum RiskPropertyTypes
+    {
+        InherentLikelihood,
+        InherentImpact,
+        ResidualLikelihood,
+        ResidualImpact,
+        FutureImpact,
+        FurtureLikelihood
+    }
 }

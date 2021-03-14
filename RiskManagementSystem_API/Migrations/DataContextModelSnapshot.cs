@@ -78,6 +78,9 @@ namespace RiskManagementSystem_API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ShortDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -107,8 +110,8 @@ namespace RiskManagementSystem_API.Migrations
                     b.Property<Guid>("RiskId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PropertyId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PropertyId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PropertyValue")
                         .HasColumnType("nvarchar(max)");

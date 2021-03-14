@@ -9,6 +9,8 @@ namespace RiskManagementSystem_API.Entities
     {
         public Guid Id { get; set; }
 
+        public Guid ProjectId { get; set; }
+
         public string Description { get; set; }
 
         public string ShortDescription { get; set; }
