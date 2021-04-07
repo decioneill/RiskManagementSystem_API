@@ -44,18 +44,66 @@ namespace RiskManagementSystem_API.Controllers
             return null;
         }
 
-        [AllowAnonymous]
-        [HttpGet("test")]
-        public IActionResult Test()
+        [HttpGet("{rid}")]
+        public IActionResult GetRiskById(string rid)
         {
-            Risk newRisk = new Risk()
+            if (!string.IsNullOrEmpty(rid) && rid != "0")
             {
-                Id = Guid.NewGuid(),
-                Description = "Test Risk",
-                ShortDescription = "Test Short Risk"
-            };
-            _riskService.Create(newRisk);
-            return Ok();
+                Guid riskId = Guid.Parse(rid);
+                List<Risk> risk = new List<Risk>();
+                risk.Add(_riskService.GetRiskById(riskId));
+                return Ok(risk);
+            }
+            return null;
+        }
+
+        [HttpPost("newrisk/{pid}")]
+        public IActionResult CreateRisk(string pid, [FromBody] Risk risk)
+        {
+            risk.Id = Guid.NewGuid();
+            risk.ProjectId = Guid.Parse(pid);
+            try
+            {
+                _riskService.Create(risk);
+                return Ok(risk);
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("{rid}")]
+        public IActionResult UpdateRisk(string rid, [FromBody] Risk risk)
+        {
+            risk.Id = Guid.Parse(rid);
+            try
+            {
+                _riskService.Update(risk);
+                return Ok(risk);
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{rid}")]
+        public IActionResult DeleteRisk(string rid)
+        {
+            Guid id = Guid.Parse(rid);
+            try
+            {
+                _riskService.Delete(id);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

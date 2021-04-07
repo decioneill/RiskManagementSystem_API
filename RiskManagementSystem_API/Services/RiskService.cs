@@ -11,7 +11,7 @@ namespace RiskManagementSystem_API.Services
     {
         IEnumerable<RiskProperty> GetRiskPropertiesForRisk(Guid riskId);
         IEnumerable<Risk> GetAll();
-        Risk GetById(Guid id);
+        Risk GetRiskById(Guid id);
         IEnumerable<Risk> GetByUserId(Guid userId);
         IEnumerable<SimpleRisk> GetSimpleRisks(Guid projectId, Guid userId);
         void Create(Risk risk);
@@ -49,7 +49,12 @@ namespace RiskManagementSystem_API.Services
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var risk = _context.Risks.Find(id);
+            if (risk != null)
+            {
+                _context.Risks.Remove(risk);
+                _context.SaveChanges();
+            }
         }
 
         public IEnumerable<Risk> GetAll()
@@ -57,9 +62,10 @@ namespace RiskManagementSystem_API.Services
             throw new NotImplementedException();
         }
 
-        public Risk GetById(Guid id)
+        public Risk GetRiskById(Guid id)
         {
-            throw new NotImplementedException();
+            Risk risk = _context.Risks.FirstOrDefault(r => r.Id.Equals(id));
+            return risk;
         }
 
         public IEnumerable<Risk> GetByUserId(Guid userId)
@@ -144,7 +150,8 @@ namespace RiskManagementSystem_API.Services
 
         public void Update(Risk risk)
         {
-            throw new NotImplementedException();
+            _context.Risks.Update(risk);
+            _context.SaveChanges();
         }
     }
 }
