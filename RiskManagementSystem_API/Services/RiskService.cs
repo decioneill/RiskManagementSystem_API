@@ -16,6 +16,7 @@ namespace RiskManagementSystem_API.Services
         IEnumerable<SimpleRisk> GetSimpleRisks(Guid projectId, Guid userId);
         void Create(Risk risk);
         void Update(Risk risk);
+        void UpdateProperties(List<RiskProperty> riskProperties);
         void Delete(Guid id);
     }
 
@@ -102,6 +103,7 @@ namespace RiskManagementSystem_API.Services
                 {
                     sRisk.InherentRiskScore = GetRiskScore(sRisk, RiskScoreTypes.InherentRiskScore);
                     sRisk.ResidualRiskScore = GetRiskScore(sRisk, RiskScoreTypes.ResidualRiskScore);
+                    sRisk.FutureRiskScore = GetRiskScore(sRisk, RiskScoreTypes.FutureRiskScore);
                 }
                 return risks;
             }
@@ -151,6 +153,12 @@ namespace RiskManagementSystem_API.Services
         public void Update(Risk risk)
         {
             _context.Risks.Update(risk);
+            _context.SaveChanges();
+        }
+
+        public void UpdateProperties(List<RiskProperty> riskProperties)
+        {
+            _context.RiskProperties.UpdateRange(riskProperties);
             _context.SaveChanges();
         }
     }

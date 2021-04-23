@@ -57,6 +57,18 @@ namespace RiskManagementSystem_API.Controllers
             return null;
         }
 
+        [HttpGet("{rid}/riskproperties")]
+        public IActionResult GetRiskProperties(string rid)
+        {
+            if (!string.IsNullOrEmpty(rid) && rid != "0")
+            {
+                Guid riskId = Guid.Parse(rid);
+                IEnumerable<RiskProperty> riskProperties = _riskService.GetRiskPropertiesForRisk(riskId);
+                return Ok(riskProperties);
+            }
+            return null;
+        }
+
         [HttpPost("newrisk/{pid}")]
         public IActionResult CreateRisk(string pid, [FromBody] Risk risk)
         {
@@ -75,11 +87,14 @@ namespace RiskManagementSystem_API.Controllers
         }
 
         [HttpPut("{rid}")]
-        public IActionResult UpdateRisk(string rid, [FromBody] Risk risk)
+        public IActionResult UpdateRisk(string rid, [FromBody] FullRisk fullRisk)
         {
-            risk.Id = Guid.Parse(rid);
+            fullRisk.Id = Guid.Parse(rid);
+            Risk risk = fullRisk.GetRisk();
+            List<RiskProperty> riskProperties = ProduceRiskModelProperties(fullRisk);
             try
             {
+                _riskService.UpdateProperties(riskProperties);
                 _riskService.Update(risk);
                 return Ok(risk);
             }
@@ -88,6 +103,52 @@ namespace RiskManagementSystem_API.Controllers
                 // return error message if there was an exception
                 return BadRequest(new { message = ex.Message });
             }
+        }
+
+        private List<RiskProperty> ProduceRiskModelProperties(FullRisk fullRisk)
+        {
+            List<RiskProperty> riskProperties = new List<RiskProperty>();
+            foreach (RiskScoreTypes scoreType in Enum.GetValues(typeof(RiskScoreTypes)))
+            {
+                RiskScoreModel risk = fullRisk.GetRiskScore(scoreType);
+                CreateRiskPropertiesFromRiskModel(fullRisk.Id, risk, ref riskProperties);
+            }
+
+            return riskProperties;
+        }
+
+        private void CreateRiskPropertiesFromRiskModel(Guid riskId, RiskScoreModel riskScore, ref List<RiskProperty> riskProperties)
+        {
+            int impactEnum = 0;
+            int likelihoodEnum = 0;
+            switch (riskScore.ScoreType)
+            {
+                case RiskScoreTypes.InherentRiskScore:
+                    impactEnum = (int)RiskPropertyTypes.InherentImpact;
+                    likelihoodEnum = (int)RiskPropertyTypes.InherentLikelihood;
+                    break;
+                case RiskScoreTypes.ResidualRiskScore:
+                    impactEnum = (int)RiskPropertyTypes.ResidualImpact;
+                    likelihoodEnum = (int)RiskPropertyTypes.ResidualLikelihood;
+                    break;
+                case RiskScoreTypes.FutureRiskScore:
+                    impactEnum = (int)RiskPropertyTypes.FutureImpact;
+                    likelihoodEnum = (int)RiskPropertyTypes.FurtureLikelihood;
+                    break;
+            }
+
+            riskProperties.Add(new RiskProperty()
+            {
+                RiskId = riskId,
+                PropertyId = impactEnum,
+                PropertyValue = (riskScore.Impact != 0)? riskScore.Impact.ToString() : "1"
+            });
+            riskProperties.Add(new RiskProperty()
+            {
+                RiskId = riskId,
+                PropertyId = likelihoodEnum,
+                PropertyValue = (riskScore.Likelihood != 0) ? riskScore.Likelihood.ToString() : "1"
+            });
         }
 
         [HttpDelete("{rid}")]

@@ -13,5 +13,8 @@ namespace RiskManagementSystem_API.Models.Risks
         public int InherentRiskScore { get; set; }
 
         public int ResidualRiskScore { get; set; }
+
+        public int FutureRiskScore { get; set; }
+
     }
 }

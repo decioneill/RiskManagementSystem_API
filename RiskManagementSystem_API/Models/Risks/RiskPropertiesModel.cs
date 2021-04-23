@@ -19,7 +19,7 @@ namespace RiskManagementSystem_API.Models.Risks
         InherentImpact,
         ResidualLikelihood,
         ResidualImpact,
-        FutureImpact,
-        FurtureLikelihood
+        FurtureLikelihood,
+        FutureImpact
     }
 }
