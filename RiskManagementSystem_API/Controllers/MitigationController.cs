@@ -4,7 +4,9 @@ using RiskManagementSystem_API.Helpers;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using RiskManagementSystem_API.Services;
-
+using RiskManagementSystem_API.Entities;
+using System;
+using System.Collections.Generic;
 
 namespace RiskManagementSystem_API.Controllers
 {
@@ -26,6 +28,22 @@ namespace RiskManagementSystem_API.Controllers
             _mitigationService = mitigationService;
             _mapper = mapper;
             _appSettings = appSettings.Value;
+        }
+
+        [HttpGet("{rid}/mitigations")]
+        public IActionResult GetMitigationsByRiskId(string rid)
+        {
+            Guid riskId = Guid.Parse(rid);
+            try
+            {
+                IEnumerable<Mitigation> mitigations = _mitigationService.GetByRiskId(riskId);
+                return Ok(mitigations);
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [AllowAnonymous]

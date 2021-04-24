@@ -47,7 +47,19 @@ namespace RiskManagementSystem_API.Services
 
         public IEnumerable<Mitigation> GetByRiskId(Guid riskId)
         {
-            throw new NotImplementedException();
+            IEnumerable<Guid> mitigationIds = _context.MitigationRisks.Where(x => x.RiskId.Equals(riskId)).Select(x => x.MitigationId);
+            var list = from mitigation in _context.Mitigations
+                       where mitigationIds.Contains(mitigation.Id)
+                       select new Mitigation
+                       {
+                           Id = mitigation.Id,
+                           CurrentStatus = mitigation.CurrentStatus,
+                           Description = mitigation.Description,
+                           ReviewDate = mitigation.ReviewDate,
+                           Name = mitigation.Name
+                       };
+            List<Mitigation> mitigations = list.ToList<Mitigation>();
+            return mitigations;
         }
 
         public void Update()
