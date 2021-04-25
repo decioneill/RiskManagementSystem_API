@@ -9,8 +9,8 @@ namespace RiskManagementSystem_API.Services
     public interface IMitigationService
     {
         IEnumerable<Mitigation> GetAll();
-        Mitigation GetById(Guid id);
-        IEnumerable<Mitigation> GetByRiskId(Guid riskId);
+        Mitigation GetMitigationById(Guid id);
+        IEnumerable<Mitigation> GetMitigationsByRiskId(Guid riskId);
         Mitigation Create();
         void Update();
         void Delete(Guid id);
@@ -40,12 +40,13 @@ namespace RiskManagementSystem_API.Services
             throw new NotImplementedException();
         }
 
-        public Mitigation GetById(Guid id)
+        public Mitigation GetMitigationById(Guid mitigationid)
         {
-            throw new NotImplementedException();
+            Mitigation mitigation = _context.Mitigations.FirstOrDefault(m => m.Id.Equals(mitigationid));
+            return mitigation;
         }
 
-        public IEnumerable<Mitigation> GetByRiskId(Guid riskId)
+        public IEnumerable<Mitigation> GetMitigationsByRiskId(Guid riskId)
         {
             IEnumerable<Guid> mitigationIds = _context.MitigationRisks.Where(x => x.RiskId.Equals(riskId)).Select(x => x.MitigationId);
             var list = from mitigation in _context.Mitigations

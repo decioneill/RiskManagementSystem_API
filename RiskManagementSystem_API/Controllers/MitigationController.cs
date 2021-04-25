@@ -36,7 +36,23 @@ namespace RiskManagementSystem_API.Controllers
             Guid riskId = Guid.Parse(rid);
             try
             {
-                IEnumerable<Mitigation> mitigations = _mitigationService.GetByRiskId(riskId);
+                IEnumerable<Mitigation> mitigations = _mitigationService.GetMitigationsByRiskId(riskId);
+                return Ok(mitigations);
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpGet("{mid}")]
+        public IActionResult GetMitigationById(string mid)
+        {
+            Guid mitigationId = Guid.Parse(mid);
+            try
+            {
+                Mitigation mitigations = _mitigationService.GetMitigationById(mitigationId);
                 return Ok(mitigations);
             }
             catch (AppException ex)
