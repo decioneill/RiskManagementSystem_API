@@ -11,8 +11,9 @@ namespace RiskManagementSystem_API.Services
         IEnumerable<Mitigation> GetAll();
         Mitigation GetMitigationById(Guid id);
         IEnumerable<Mitigation> GetMitigationsByRiskId(Guid riskId);
-        Mitigation Create();
-        void Update();
+        void Create(Mitigation mitigation, MitigationRisk mitigationRisk);
+        void Update(Mitigation mitigation);
+        void DeleteFromRisk(Guid mitigationId, Guid riskId);
         void Delete(Guid id);
     }
 
@@ -25,14 +26,36 @@ namespace RiskManagementSystem_API.Services
             _context = context;
         }
 
-        public Mitigation Create()
+        public void Create(Mitigation mitigation, MitigationRisk mr)
         {
-            throw new NotImplementedException();
+            _context.Mitigations.Add(mitigation);
+            _context.MitigationRisks.Add(mr);
+            _context.SaveChanges();
         }
 
         public void Delete(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        public void DeleteFromRisk(Guid mitigationId, Guid riskId)
+        {
+            IEnumerable<MitigationRisk> mitigationsOnRisk = _context.MitigationRisks.Where(x => x.RiskId.Equals(riskId));
+            if (mitigationsOnRisk.Any())
+            {
+                MitigationRisk mr = mitigationsOnRisk.FirstOrDefault(x => x.MitigationId.Equals(mitigationId));
+                if(mr is not null)
+                {
+                    _context.MitigationRisks.Remove(mr);
+                    // If was only connection to Mitigation, delete Mitigation as well
+                    if(mitigationsOnRisk.Count() == 1)
+                    {
+                        Mitigation mitigation = _context.Mitigations.Find(mitigationId);
+                        _context.Mitigations.Remove(mitigation);
+                    }
+                }
+            }
+            _context.SaveChanges();
         }
 
         public IEnumerable<Mitigation> GetAll()
@@ -63,9 +86,10 @@ namespace RiskManagementSystem_API.Services
             return mitigations;
         }
 
-        public void Update()
+        public void Update(Mitigation mitigation)
         {
-            throw new NotImplementedException();
+            _context.Mitigations.Update(mitigation);
+            _context.SaveChanges();
         }
     }
 }

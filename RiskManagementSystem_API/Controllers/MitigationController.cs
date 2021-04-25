@@ -62,11 +62,59 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
-        [AllowAnonymous]
-        [HttpGet("test")]
-        public IActionResult Test()
+        [HttpPost("newmitigation/{rid}")]
+        public IActionResult CreateMitigation(string rid, [FromBody] Mitigation mitigation)
         {
-            return Ok("Successful Endpoint");
+            mitigation.Id = Guid.NewGuid();
+            Guid riskId = Guid.Parse(rid);
+            MitigationRisk mr = new MitigationRisk()
+            {
+                MitigationId = mitigation.Id,
+                RiskId = riskId
+            };
+            try
+            {
+                _mitigationService.Create(mitigation, mr);
+                return Ok(mitigation);
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPut("{mid}")]
+        public IActionResult UpdateMitigation(string mid, [FromBody] Mitigation mitigation)
+        {
+            mitigation.Id = Guid.Parse(mid);
+            try
+            {
+                _mitigationService.Update(mitigation);
+                return Ok(mitigation);
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{mid}/{rid}")]
+        public IActionResult DeleteFromRisk(string mid, string rid)
+        {
+            Guid mitigationId = Guid.Parse(mid);
+            Guid riskId = Guid.Parse(rid);
+            try
+            {
+                _mitigationService.DeleteFromRisk(mitigationId, riskId);
+                return Ok();
+            }
+            catch (AppException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }
