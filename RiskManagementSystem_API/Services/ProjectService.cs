@@ -107,7 +107,7 @@ namespace RiskManagementSystem_API.Services
                        select new DisplayUserModel
                        {
                            Id = u.Id,
-                           Email = u.Email
+                           Username = u.Username
                        };
             return list;
         }
@@ -122,7 +122,7 @@ namespace RiskManagementSystem_API.Services
                            ProjectId = m.ProjectId,
                            TeamLeader = m.TeamLeader,
                            UserId = m.UserId,
-                           Name = u.Email
+                           Name = u.Username
                        };
             return list.OrderByDescending(x => x.TeamLeader).ThenBy(x => x.Name);
         }

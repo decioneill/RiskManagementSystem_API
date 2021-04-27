@@ -106,6 +106,8 @@ namespace RiskManagementSystem_API.Services
             {
                 if (_context.Users.Any(x => x.Email == user.Email))
                     throw new AppException("Email \"" + user.Email + "\" is already in use");
+                if (_context.Users.Any(x => x.Username == user.Username))
+                    throw new AppException("Username \"" + user.Username + "\" is already in use");
             }
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
@@ -126,14 +128,24 @@ namespace RiskManagementSystem_API.Services
             if (user == null)
                 throw new AppException("User not found");
 
-            // update username if it has changed
+            // update email if it has changed
             if (!string.IsNullOrWhiteSpace(userParam.Email) && userParam.Email != user.Email)
             {
-                // throw error if the new username is already taken
+                // throw error if the new email is already taken
                 if (_context.Users.Any(x => x.Email == userParam.Email))
                     throw new AppException("Email " + userParam.Email + " is already in use");
 
                 user.Email = userParam.Email;
+            }
+
+            // update username if it has changed
+            if (!string.IsNullOrWhiteSpace(userParam.Username) && userParam.Username != user.Username)
+            {
+                // throw error if the new username is already taken
+                if (_context.Users.Any(x => x.Username == userParam.Username))
+                    throw new AppException("Username " + userParam.Username + " is already in use");
+
+                user.Username = userParam.Username;
             }
 
             // update user properties if provided

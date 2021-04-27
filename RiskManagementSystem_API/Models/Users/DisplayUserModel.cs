@@ -8,6 +8,6 @@ namespace RiskManagementSystem_API.Models.Users
     public class DisplayUserModel 
     { 
             public Guid Id { get; set; }
-            public string Email { get; set; }
+            public string Username { get; set; }
     }
 }

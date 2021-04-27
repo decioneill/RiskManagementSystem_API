@@ -4,6 +4,7 @@ namespace RiskManagementSystem_API.Models.Users
     {
         public bool RiskManager { get; set; }
         public bool Admin { get; set; }
+        public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
     }

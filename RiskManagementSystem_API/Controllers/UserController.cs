@@ -61,6 +61,7 @@ namespace RiskManagementSystem_API.Controllers
             return Ok(new
             {
                 Id = user.Id,
+                Username = user.Username,
                 RiskManager = user.RiskManager,
                 Admin = user.Admin,
                 Email = user.Email,
