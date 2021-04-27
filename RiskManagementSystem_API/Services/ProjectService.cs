@@ -11,7 +11,7 @@ namespace RiskManagementSystem_API.Services
     public interface IProjectService
     {
         void AddTeamMember(TeamMember newMember);
-        IEnumerable<Project> GetAll();
+        IEnumerable<Project> GetAll(Guid userId);
         Project GetById(Guid id);
         IEnumerable<DisplayUserModel> GetNonMembers(Guid pid);
         void AddTeamMembers(string pid, List<string> userIds);
@@ -87,9 +87,26 @@ namespace RiskManagementSystem_API.Services
             }
         }
 
-        public IEnumerable<Project> GetAll()
+        public IEnumerable<Project> GetAll(Guid userId)
         {
-            var projects = _context.Projects;
+            IEnumerable<Project> projects;
+            User user = _context.Users.Find(userId);
+            if (user.Admin)
+            {
+                projects = _context.Projects.ToList();
+            }
+            else
+            {
+                var projectIds = _context.TeamMembers.Where(x => x.UserId == userId).Select(x => x.ProjectId);
+                var list = from proj in _context.Projects
+                           where projectIds.Contains(proj.Id)
+                           select new Project
+                           {
+                               Id = proj.Id,
+                               Name = proj.Name
+                           };
+                projects = list.ToList();
+            }
             return projects;
         }
 

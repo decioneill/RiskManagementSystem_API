@@ -102,9 +102,10 @@ namespace RiskManagementSystem_API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(string uid)
         {
-            var projects = _projectService.GetAll().ToList();
+            Guid userId = Guid.Parse(uid);
+            var projects = _projectService.GetAll(userId).ToList();
             var allList = new List<ProjectTeamModel>();
             foreach(Project project in projects)
             {
