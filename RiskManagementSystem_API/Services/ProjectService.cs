@@ -13,8 +13,6 @@ namespace RiskManagementSystem_API.Services
         void AddTeamMember(TeamMember newMember);
         IEnumerable<Project> GetAll();
         Project GetById(Guid id);
-        IEnumerable<Project> GetByUserId(Guid userId);
-        Project GetByName(string name);
         IEnumerable<DisplayUserModel> GetNonMembers(Guid pid);
         void AddTeamMembers(string pid, List<string> userIds);
         void Create(Project newProject);
@@ -99,16 +97,6 @@ namespace RiskManagementSystem_API.Services
         {
             Project proj = _context.Projects.Where(x => x.Id.Equals(pid)).FirstOrDefault();
             return proj;
-        }
-
-        public Project GetByName(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Project> GetByUserId(Guid userId)
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<DisplayUserModel> GetNonMembers(Guid pid)

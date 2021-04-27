@@ -10,9 +10,7 @@ namespace RiskManagementSystem_API.Services
     public interface IRiskService
     {
         IEnumerable<RiskProperty> GetRiskPropertiesForRisk(Guid riskId);
-        IEnumerable<Risk> GetAll();
         Risk GetRiskById(Guid id);
-        IEnumerable<Risk> GetByUserId(Guid userId);
         IEnumerable<SimpleRisk> GetSimpleRisks(Guid projectId, Guid userId);
         void Create(Risk risk);
         void Update(Risk risk);
@@ -58,22 +56,12 @@ namespace RiskManagementSystem_API.Services
             }
         }
 
-        public IEnumerable<Risk> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
         public Risk GetRiskById(Guid id)
         {
             Risk risk = _context.Risks.FirstOrDefault(r => r.Id.Equals(id));
             return risk;
         }
 
-        public IEnumerable<Risk> GetByUserId(Guid userId)
-        {
-            throw new NotImplementedException();
-        }
-        
         public IEnumerable<SimpleRisk> GetSimpleRisks(Guid projectId, Guid userId)
         {
             User user = _context.Users.SingleOrDefault(u => u.Id.Equals(userId));

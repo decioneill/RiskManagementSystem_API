@@ -8,13 +8,11 @@ namespace RiskManagementSystem_API.Services
 {
     public interface IMitigationService
     {
-        IEnumerable<Mitigation> GetAll();
         Mitigation GetMitigationById(Guid id);
         IEnumerable<Mitigation> GetMitigationsByRiskId(Guid riskId);
         void Create(Mitigation mitigation, MitigationRisk mitigationRisk);
         void Update(Mitigation mitigation);
         void DeleteFromRisk(Guid mitigationId, Guid riskId);
-        void Delete(Guid id);
     }
 
     public class MitigationService : IMitigationService
@@ -31,11 +29,6 @@ namespace RiskManagementSystem_API.Services
             _context.Mitigations.Add(mitigation);
             _context.MitigationRisks.Add(mr);
             _context.SaveChanges();
-        }
-
-        public void Delete(Guid id)
-        {
-            throw new NotImplementedException();
         }
 
         public void DeleteFromRisk(Guid mitigationId, Guid riskId)
@@ -56,11 +49,6 @@ namespace RiskManagementSystem_API.Services
                 }
             }
             _context.SaveChanges();
-        }
-
-        public IEnumerable<Mitigation> GetAll()
-        {
-            throw new NotImplementedException();
         }
 
         public Mitigation GetMitigationById(Guid mitigationid)
