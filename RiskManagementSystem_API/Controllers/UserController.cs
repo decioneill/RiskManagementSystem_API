@@ -90,11 +90,17 @@ namespace RiskManagementSystem_API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(string userId)
         {
-            var users = _userService.GetAll();
-            var model = _mapper.Map<IList<UserModel>>(users);
-            return Ok(model);
+            Guid id = Guid.Parse(userId);
+            var user = _userService.GetById(id);
+            if (user != null && (user.Admin || user.RiskManager))
+            {
+                var users = _userService.GetAll();
+                var model = _mapper.Map<IList<UserModel>>(users);
+                return Ok(model);
+            }
+            return null;
         }
 
         [HttpGet("{id}")]
@@ -140,14 +146,6 @@ namespace RiskManagementSystem_API.Controllers
             Guid userId = Guid.Parse(id);
             _userService.Delete(userId);
             return Ok();
-        }
-
-
-        [AllowAnonymous]
-        [HttpGet("test")]
-        public IActionResult Test()
-        {
-            return Ok("Successful Endpoint");
         }
     }
 }

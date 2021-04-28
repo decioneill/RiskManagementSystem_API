@@ -195,12 +195,5 @@ namespace RiskManagementSystem_API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
-        [AllowAnonymous]
-        [HttpGet("test")]
-        public IActionResult Test()
-        {
-            return Ok("Successful Endpoint");
-        }
     }
 }
