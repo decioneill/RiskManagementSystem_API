@@ -31,6 +31,12 @@ namespace RiskManagementSystem_API.Controllers
             _appSettings = appSettings.Value;
         }
 
+        /// <summary>
+        /// Returns simple risks for risks User can view on project
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         [HttpGet("{pid}/{uid}/short")]
         public IActionResult GetSimpleRisksByUserId(string pid, string uid)
         {
@@ -44,6 +50,11 @@ namespace RiskManagementSystem_API.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Returns risk of id
+        /// </summary>
+        /// <param name="rid"></param>
+        /// <returns></returns>
         [HttpGet("{rid}")]
         public IActionResult GetRiskById(string rid)
         {
@@ -57,6 +68,11 @@ namespace RiskManagementSystem_API.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Returns list of Risk Properties for risk of id
+        /// </summary>
+        /// <param name="rid"></param>
+        /// <returns></returns>
         [HttpGet("{rid}/riskproperties")]
         public IActionResult GetRiskProperties(string rid)
         {
@@ -69,6 +85,12 @@ namespace RiskManagementSystem_API.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Creates new risk
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="risk"></param>
+        /// <returns></returns>
         [HttpPost("newrisk/{pid}")]
         public IActionResult CreateRisk(string pid, [FromBody] Risk risk)
         {
@@ -86,6 +108,12 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates Risk and it's properties based on full risk parameter
+        /// </summary>
+        /// <param name="rid"></param>
+        /// <param name="fullRisk"></param>
+        /// <returns></returns>
         [HttpPut("{rid}")]
         public IActionResult UpdateRisk(string rid, [FromBody] FullRisk fullRisk)
         {
@@ -105,6 +133,11 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// private method to retrieve risk properties from fullrisk object
+        /// </summary>
+        /// <param name="fullRisk"></param>
+        /// <returns></returns>
         private List<RiskProperty> ProduceRiskModelProperties(FullRisk fullRisk)
         {
             List<RiskProperty> riskProperties = new List<RiskProperty>();
@@ -117,6 +150,12 @@ namespace RiskManagementSystem_API.Controllers
             return riskProperties;
         }
 
+        /// <summary>
+        /// Creates risk properties for risk of id from RiskScoreModel
+        /// </summary>
+        /// <param name="riskId"></param>
+        /// <param name="riskScore"></param>
+        /// <param name="riskProperties"></param>
         private void CreateRiskPropertiesFromRiskModel(Guid riskId, RiskScoreModel riskScore, ref List<RiskProperty> riskProperties)
         {
             int impactEnum = 0;
@@ -137,6 +176,7 @@ namespace RiskManagementSystem_API.Controllers
                     break;
             }
 
+            // Create Impact and Likelihood Risk Properties
             riskProperties.Add(new RiskProperty()
             {
                 RiskId = riskId,
@@ -151,6 +191,11 @@ namespace RiskManagementSystem_API.Controllers
             });
         }
 
+        /// <summary>
+        /// Removes Risk from Database
+        /// </summary>
+        /// <param name="rid"></param>
+        /// <returns></returns>
         [HttpDelete("{rid}")]
         public IActionResult DeleteRisk(string rid)
         {

@@ -15,11 +15,19 @@ namespace RiskManagementSystem_API.Controllers
     [Route("[controller]")]
     public class MitigationController : Controller
     {
-
+        /// <summary>
+        /// Mitigation Service interface
+        /// </summary>
         private IMitigationService _mitigationService;
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="mitigationService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="appSettings"></param>
         public MitigationController(
             IMitigationService mitigationService,
             IMapper mapper,
@@ -30,6 +38,11 @@ namespace RiskManagementSystem_API.Controllers
             _appSettings = appSettings.Value;
         }
 
+        /// <summary>
+        /// Gets mitigations that have MitigationRisk with RiskId
+        /// </summary>
+        /// <param name="rid"></param>
+        /// <returns></returns>
         [HttpGet("{rid}/mitigations")]
         public IActionResult GetMitigationsByRiskId(string rid)
         {
@@ -46,6 +59,11 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets Mitigation of Id
+        /// </summary>
+        /// <param name="mid"></param>
+        /// <returns></returns>
         [HttpGet("{mid}")]
         public IActionResult GetMitigationById(string mid)
         {
@@ -62,6 +80,12 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates new Mitigation
+        /// </summary>
+        /// <param name="rid"></param>
+        /// <param name="mitigation"></param>
+        /// <returns></returns>
         [HttpPost("newmitigation/{rid}")]
         public IActionResult CreateMitigation(string rid, [FromBody] Mitigation mitigation)
         {
@@ -84,6 +108,12 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates mitigation
+        /// </summary>
+        /// <param name="mid"></param>
+        /// <param name="mitigation"></param>
+        /// <returns></returns>
         [HttpPut("{mid}")]
         public IActionResult UpdateMitigation(string mid, [FromBody] Mitigation mitigation)
         {
@@ -100,6 +130,12 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes Mitigation from Risk, only removes association unless no other MitigationRisk exists, if so will delete Mitigation too.
+        /// </summary>
+        /// <param name="mid"></param>
+        /// <param name="rid"></param>
+        /// <returns>confirmation</returns>
         [HttpDelete("{mid}/{rid}")]
         public IActionResult DeleteFromRisk(string mid, string rid)
         {

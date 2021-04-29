@@ -24,6 +24,11 @@ namespace RiskManagementSystem_API.Services
             _context = context;
         }
 
+        /// <summary>
+        /// creates new mitigation
+        /// </summary>
+        /// <param name="mitigation"></param>
+        /// <param name="mr"></param>
         public void Create(Mitigation mitigation, MitigationRisk mr)
         {
             _context.Mitigations.Add(mitigation);
@@ -31,6 +36,11 @@ namespace RiskManagementSystem_API.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Deletes MitigationRisk and also Mitigation if no other MitigationRisk with MitigationId
+        /// </summary>
+        /// <param name="mitigationId"></param>
+        /// <param name="riskId"></param>
         public void DeleteFromRisk(Guid mitigationId, Guid riskId)
         {
             IEnumerable<MitigationRisk> mitigationsOnRisk = _context.MitigationRisks.Where(x => x.RiskId.Equals(riskId));
@@ -51,12 +61,22 @@ namespace RiskManagementSystem_API.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Gets mitgation of id
+        /// </summary>
+        /// <param name="mitigationid"></param>
+        /// <returns></returns>
         public Mitigation GetMitigationById(Guid mitigationid)
         {
             Mitigation mitigation = _context.Mitigations.FirstOrDefault(m => m.Id.Equals(mitigationid));
             return mitigation;
         }
 
+        /// <summary>
+        /// Gets list of mitigations on a risk
+        /// </summary>
+        /// <param name="riskId"></param>
+        /// <returns></returns>
         public IEnumerable<Mitigation> GetMitigationsByRiskId(Guid riskId)
         {
             IEnumerable<Guid> mitigationIds = _context.MitigationRisks.Where(x => x.RiskId.Equals(riskId)).Select(x => x.MitigationId);
@@ -74,6 +94,10 @@ namespace RiskManagementSystem_API.Services
             return mitigations;
         }
 
+        /// <summary>
+        /// Updates mitigation
+        /// </summary>
+        /// <param name="mitigation"></param>
         public void Update(Mitigation mitigation)
         {
             _context.Mitigations.Update(mitigation);

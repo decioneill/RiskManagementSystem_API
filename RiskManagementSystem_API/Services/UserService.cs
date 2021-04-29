@@ -33,6 +33,12 @@ namespace RiskManagementSystem_API.Services
             _context = context;
         }
 
+        /// <summary>
+        /// Authenticats user by email and password
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public User Authenticate(string email, string password)
         {
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
@@ -52,22 +58,42 @@ namespace RiskManagementSystem_API.Services
             return user;
         }
 
+        /// <summary>
+        /// Gets all users
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<User> GetAll()
         {
             var users = _context.Users;
             return users;
         }
 
+        /// <summary>
+        /// Gets user by userid
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public User GetById(Guid id)
         {
             return _context.Users.Find(id);
         }
 
+        /// <summary>
+        /// Gets user by email (NOT USED AT PRESENT)
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public User GetByEmail(string email)
         {
             return _context.Users.SingleOrDefault(x => x.Email.Equals(email));
         }
 
+        /// <summary>
+        /// Confirms user has role
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
         public bool CheckRole(Guid id, Role role)
         {
             bool hasRole = false;
@@ -91,6 +117,12 @@ namespace RiskManagementSystem_API.Services
             return hasRole;
         }
 
+        /// <summary>
+        /// Creates new User
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public User Create(User user, string password)
         {
             // validation
@@ -109,6 +141,7 @@ namespace RiskManagementSystem_API.Services
                 if (_context.Users.Any(x => x.Username == user.Username))
                     throw new AppException("Username \"" + user.Username + "\" is already in use");
             }
+            // Generate Hash and Salt
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
@@ -121,6 +154,11 @@ namespace RiskManagementSystem_API.Services
             return user;
         }
 
+        /// <summary>
+        /// Updates user by parameter, if no password will remain old
+        /// </summary>
+        /// <param name="userParam"></param>
+        /// <param name="password"></param>
         public void Update(User userParam, string password = null)
         {
             var user = _context.Users.Find(userParam.Id);
@@ -166,6 +204,10 @@ namespace RiskManagementSystem_API.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Deletes user of id
+        /// </summary>
+        /// <param name="id"></param>
         public void Delete(Guid id)
         {
             var user = _context.Users.Find(id);
@@ -178,6 +220,7 @@ namespace RiskManagementSystem_API.Services
 
         // private helper methods
 
+        // Generates password hash
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
@@ -190,6 +233,7 @@ namespace RiskManagementSystem_API.Services
             }
         }
 
+        // verifies password matches stored password
         private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (password == null) throw new ArgumentNullException("password");

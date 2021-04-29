@@ -32,6 +32,11 @@ namespace RiskManagementSystem_API.Services
             _context = context;
         }
 
+        /// <summary>
+        /// Adds TeamMember for project of id
+        /// </summary>
+        /// <param name="pidString"></param>
+        /// <param name="userIds"></param>
         public void AddTeamMembers(string pidString, List<string> userIds)
         {
             Guid pid = Guid.Parse(pidString);
@@ -59,6 +64,10 @@ namespace RiskManagementSystem_API.Services
             }
         }
 
+        /// <summary>
+        /// Add a new Team Member
+        /// </summary>
+        /// <param name="newMember"></param>
         public void AddTeamMember(TeamMember newMember)
         {
             if (_context.TeamMembers.Any(x => x.UserId.Equals(newMember.UserId) && x.ProjectId.Equals(newMember.ProjectId)))
@@ -68,6 +77,10 @@ namespace RiskManagementSystem_API.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Creates new Project
+        /// </summary>
+        /// <param name="newProject"></param>
         public void Create(Project newProject)
         {
             if (_context.Projects.Any(x => x.Name == newProject.Name))
@@ -77,6 +90,10 @@ namespace RiskManagementSystem_API.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Deletes project of id
+        /// </summary>
+        /// <param name="id"></param>
         public void Delete(Guid id)
         {
             var project = _context.Projects.Find(id);
@@ -87,6 +104,11 @@ namespace RiskManagementSystem_API.Services
             }
         }
 
+        /// <summary>
+        /// Gets all projects user can access
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public IEnumerable<Project> GetAll(Guid userId)
         {
             IEnumerable<Project> projects;
@@ -110,12 +132,22 @@ namespace RiskManagementSystem_API.Services
             return projects;
         }
 
+        /// <summary>
+        /// Gets project by id
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <returns></returns>
         public Project GetById(Guid pid)
         {
             Project proj = _context.Projects.Where(x => x.Id.Equals(pid)).FirstOrDefault();
             return proj;
         }
 
+        /// <summary>
+        /// Returns users who are not on team
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <returns></returns>
         public IEnumerable<DisplayUserModel> GetNonMembers(Guid pid)
         {
             IEnumerable<Guid> memberIds = _context.TeamMembers.Where(x => x.ProjectId.Equals(pid)).Select(x => x.UserId);
@@ -129,6 +161,11 @@ namespace RiskManagementSystem_API.Services
             return list;
         }
 
+        /// <summary>
+        /// Get Teammembers by project
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public IEnumerable<TeamMemberModel> GetTeamByProjectId(Guid projectId)
         {
             var list = from m in _context.TeamMembers
@@ -144,6 +181,11 @@ namespace RiskManagementSystem_API.Services
             return list.OrderByDescending(x => x.TeamLeader).ThenBy(x => x.Name);
         }
 
+        /// <summary>
+        /// Deletes a team member
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="uid"></param>
         public void DeleteTeamMember(Guid pid, Guid uid)
         {
             var teamMember = _context.TeamMembers.Where(x => x.UserId.Equals(uid) && x.ProjectId.Equals(pid)).FirstOrDefault();
@@ -154,6 +196,11 @@ namespace RiskManagementSystem_API.Services
             }
         }
 
+        /// <summary>
+        /// Toggles TeamMembers Leader Role bool value
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="uid"></param>
         public void SwitchLeaderRole(Guid pid, Guid uid)
         {
             var teamMember = _context.TeamMembers.Where(x => x.UserId.Equals(uid) && x.ProjectId.Equals(pid)).FirstOrDefault();
@@ -165,6 +212,11 @@ namespace RiskManagementSystem_API.Services
             }
         }
 
+        /// <summary>
+        /// Gets Projects user can access in alphanumeric order
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public IEnumerable<Project> GetUserProjects(Guid userId)
         {
             User user = _context.Users.Where(x => x.Id.Equals(userId)).FirstOrDefault();
@@ -186,6 +238,5 @@ namespace RiskManagementSystem_API.Services
                        };
             return list.OrderBy(x => x.Name);
         }
-    }
-    
+    }    
 }

@@ -34,6 +34,11 @@ namespace RiskManagementSystem_API.Controllers
             _appSettings = appSettings.Value;
         }
 
+        /// <summary>
+        /// Authenticates User of Model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody]AuthenticateModel model)
@@ -69,6 +74,11 @@ namespace RiskManagementSystem_API.Controllers
             });
         }
 
+        /// <summary>
+        /// Registers new User
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody]RegisterModel model)
@@ -89,6 +99,11 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves all users if permitted
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetAll(string userId)
         {
@@ -103,6 +118,11 @@ namespace RiskManagementSystem_API.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Gets user by Id 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
@@ -112,6 +132,12 @@ namespace RiskManagementSystem_API.Controllers
             return Ok(model);
         }
 
+        /// <summary>
+        /// Checks user id against role.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="role"></param>
+        /// <returns>value of role</returns>
         [HttpGet("{id}/{role}")]
         public bool CheckRole(string id, Role role)
         {
@@ -120,6 +146,12 @@ namespace RiskManagementSystem_API.Controllers
             return hasRole;
         }
 
+        /// <summary>
+        /// Updates user with new user details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Update(string id, [FromBody]UpdateModel model)
         {
@@ -140,6 +172,11 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Removes User from Database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {

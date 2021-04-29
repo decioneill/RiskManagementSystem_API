@@ -27,6 +27,10 @@ namespace RiskManagementSystem_API.Services
             _context = context;
         }
 
+        /// <summary>
+        /// Create new Risk
+        /// </summary>
+        /// <param name="risk"></param>
         public void Create(Risk risk)
         {
             _context.Risks.Add(risk);
@@ -46,6 +50,10 @@ namespace RiskManagementSystem_API.Services
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Delete Risk of id
+        /// </summary>
+        /// <param name="id"></param>
         public void Delete(Guid id)
         {
             var risk = _context.Risks.Find(id);
@@ -56,12 +64,23 @@ namespace RiskManagementSystem_API.Services
             }
         }
 
+        /// <summary>
+        /// Gets risk by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Risk GetRiskById(Guid id)
         {
             Risk risk = _context.Risks.FirstOrDefault(r => r.Id.Equals(id));
             return risk;
         }
 
+        /// <summary>
+        /// Returns list of Simple Risks (limited properties) for project id which user can access.
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public IEnumerable<SimpleRisk> GetSimpleRisks(Guid projectId, Guid userId)
         {
             User user = _context.Users.SingleOrDefault(u => u.Id.Equals(userId));
@@ -98,6 +117,12 @@ namespace RiskManagementSystem_API.Services
             return null;
         }
 
+        /// <summary>
+        /// Gets the Risk Score of a SimpleRisk
+        /// </summary>
+        /// <param name="sRisk"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         private int GetRiskScore(SimpleRisk sRisk, RiskScoreTypes type)
         {
             string Likelihood = ""; 
@@ -122,6 +147,12 @@ namespace RiskManagementSystem_API.Services
             return l * i;
         }
 
+        /// <summary>
+        /// Gets ProeprtyValue of risk of id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         private string GetPropertyValue(Guid id, RiskPropertyTypes type)
         {
             RiskProperty property = _context.RiskProperties.Where(r => r.RiskId.Equals(id) && r.PropertyId.Equals((int)type)).FirstOrDefault();
@@ -132,18 +163,31 @@ namespace RiskManagementSystem_API.Services
             return "0";
         }
 
+        /// <summary>
+        /// Get Properties of Risk id
+        /// </summary>
+        /// <param name="riskId"></param>
+        /// <returns></returns>
         public IEnumerable<RiskProperty> GetRiskPropertiesForRisk(Guid riskId)
         {
             IEnumerable<RiskProperty> properties = _context.RiskProperties.Where(x => x.RiskId.Equals(riskId));
             return properties;
         }
 
+        /// <summary>
+        /// Updates risk
+        /// </summary>
+        /// <param name="risk"></param>
         public void Update(Risk risk)
         {
             _context.Risks.Update(risk);
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Updates properties
+        /// </summary>
+        /// <param name="riskProperties"></param>
         public void UpdateProperties(List<RiskProperty> riskProperties)
         {
             _context.RiskProperties.UpdateRange(riskProperties);

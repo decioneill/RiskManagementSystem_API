@@ -17,10 +17,19 @@ namespace RiskManagementSystem_API.Controllers
     [Route("[controller]")]
     public class ProjectController : ControllerBase
     {
+        /// <summary>
+        /// Project Service Interface
+        /// </summary>
         private IProjectService _projectService;
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="projectService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="appSettings"></param>
         public ProjectController(
             IProjectService projectService,
             IMapper mapper,
@@ -31,6 +40,11 @@ namespace RiskManagementSystem_API.Controllers
             _appSettings = appSettings.Value;
         }
 
+        /// <summary>
+        /// Returns project of Id
+        /// </summary>
+        /// <param name="pid">project id</param>
+        /// <returns>project of id</returns>
         [HttpGet("{pid}")]
         public IActionResult GetById(string pid)
         {
@@ -50,6 +64,12 @@ namespace RiskManagementSystem_API.Controllers
             return null;
         }
 
+        /// <summary>
+        /// Creates TeamMember of UserId, ProjectId
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         [HttpPost("{pid}/{uid}")]
         public IActionResult AddTeamMember(string pid, string uid)
         {
@@ -68,7 +88,12 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
-        
+        /// <summary>
+        /// Toggles users Teamleader value
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         [HttpGet("{pid}/{uid}/switchleaderrole")]
         public IActionResult SwitchLeaderRole(string pid, string uid)
         {
@@ -86,6 +111,12 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates TeamMember entities for list of users for project
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="users"></param>
+        /// <returns></returns>
         [HttpPost("{pid}/createTeamMembers")]
         public IActionResult AddTeamMembers(string pid, List<string> users)
         {
@@ -101,6 +132,11 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets a list of all projects and their team.
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns>List of ProjectTeamModel</returns>
         [HttpGet]
         public IActionResult GetAll(string uid)
         {
@@ -117,6 +153,11 @@ namespace RiskManagementSystem_API.Controllers
             return Ok(allList.ToArray());
         }
 
+        /// <summary>
+        /// Returns list of users not on the team for project of id.
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <returns></returns>
         [HttpGet("{pid}/getnonmembers")]
         public IActionResult GetNonMembers(string pid)
         {
@@ -133,6 +174,11 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Creates a new Project of name
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost("createproject")]
         public IActionResult CreateProject([FromBody] ProjectModel model)
         {
@@ -158,6 +204,11 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// deletes project of id
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <returns></returns>
         [HttpDelete("{pid}")]
         public IActionResult Delete(string pid)
         {
@@ -166,6 +217,12 @@ namespace RiskManagementSystem_API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Deletes team member for project of userid
+        /// </summary>
+        /// <param name="pid"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         [HttpDelete("{pid}/{uid}")]
         public IActionResult DeleteTeamMember(string pid, string uid)
         {
@@ -181,6 +238,11 @@ namespace RiskManagementSystem_API.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets all projects that a user has permission to view.
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns>List of Projects</returns>
         [HttpGet("{uid}/userprojects")]
         public IActionResult GetUsersProjects(string uid)
         {
